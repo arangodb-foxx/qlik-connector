@@ -1,6 +1,58 @@
 # qlik-connector
 
-This is a simple qlik-connector allowing pagination of documents
+This is a simple qlik-connector allowing pagination of documents. Of course it is also able to
+deliver the data to any other application. 
+
+## Routes
+
+### Paginate documents inside a given collection (GET)
+
+This route allows to get documents of a collection in a paginated way using url query
+parameters.
+
+Required query url parameter:
+- `collection` (Collection to be used)
+
+Optional query url parameters:
+- `start` (Starting point of data to fetch)
+- `count` (Amount of documents we want to fetch)
+
+URL query parameter example:
+```
+  http://<address>:<port>/_db/<database>/<foxx-mount-path>/documents?collection=<your-collection>&start=0&count=5
+```
+
+### Passthrough pagination parameters to a query (POST)
+
+This route passes the `start` and `count` parameters defined via the url query parameters
+into the bindParameter of a query using `@start` and `@count` as variables using e.g. the
+AQL LIMIT function:  `... LIMIT @start, @count ... `.
+
+Required json body attribute:
+- `queryString` (Query to be executed)
+
+Optional json body attribute:
+- `queryBindVars` (Additional bind parameters to be used)
+
+Optional query url parameters:
+- `start` (Starting point of data to fetch)
+- `count` (Amount of documents we want to fetch)
+
+URL query parameter example:
+```
+  http://<address>:<port>/_db/<database>/<foxx-mount-path>/executeQuery?start=0&count=5
+```
+
+Raw JSON body example:
+
+```
+  {
+    "queryString": "FOR u IN @@collection LIMIT @start, @count RETURN u",
+    "queryBindVars": {
+      "@collection": "users"
+    }
+  }
+```
 
 # Limitations
 
