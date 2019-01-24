@@ -63,7 +63,6 @@ router.post('/executeQuery', function (req, res) {
   if (Number.isInteger(count)) {
     queryBindVars.count = count;
   }
-  console.log(queryString);
 
   let result;
   try {
