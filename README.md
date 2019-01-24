@@ -5,7 +5,7 @@ deliver the data to any other application.
 
 ## Routes
 
-### Paginate documents inside a given collection (GET)
+### /documents - Paginate documents inside a given collection (GET)
 
 This route allows to get documents of a collection in a paginated way using url query
 parameters.
@@ -22,7 +22,7 @@ URL query parameter example:
   http://<address>:<port>/_db/<database>/<foxx-mount-path>/documents?collection=<your-collection>&start=0&count=5
 ```
 
-### Passthrough pagination parameters to a query (POST)
+### /executeQuery - Passthrough pagination parameters to a query (POST)
 
 This route passes the `start` and `count` parameters defined via the url query parameters
 into the bindParameter of a query using `@start` and `@count` as variables using e.g. the
