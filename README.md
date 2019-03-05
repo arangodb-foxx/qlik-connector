@@ -3,6 +3,12 @@
 This is a simple qlik-connector allowing pagination of documents. Of course it is also able to
 deliver the data to any other application. 
 
+**IMPORTANT**
+
+This is a demo application. Do not use this application without further authentication on a public accessible server!
+
+**IMPORTANT**
+
 ## Routes
 
 ### /documents - Paginate documents inside a given collection (GET)
