@@ -1,6 +1,6 @@
 {
     "name": "qlik-connector",
-    "version": "0.0.0",
+    "version": "1.0.1",
     "description": "This is a simple qlik-connector allowing pagination of documents",
     "engines": {
         "arangodb": "^3.0.0"

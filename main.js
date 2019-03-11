@@ -11,6 +11,12 @@ const router = createRouter();
 module.context.use(router);
 
 router.get('/documents', function (req, res) {
+  // will only work with authentication
+  // use basic auth
+  if (!req.arangoUser) {
+    res.throw('unauthorized');
+  }
+
   // query params available here: req.queryParams);
   let result = {};
 
@@ -46,6 +52,11 @@ router.get('/documents', function (req, res) {
 .description('This route is delivering paginated documents of a collection. If start and count are not defined, all documents will be returned.');
 
 router.post('/executeQuery', function (req, res) {
+  // will only work with authentication
+  // use basic auth
+  if (!req.arangoUser) {
+    res.throw('unauthorized');
+  }
   // query params available here: req.queryParams);
 
   // set the query string (must be defined)
