@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "devDependencies": {
+    "@types/arangodb": "^3.4.9",
+    "@types/joi": "^14.3.2"
+  }
+}

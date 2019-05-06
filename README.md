@@ -1,80 +1,63 @@
-# qlik-connector
+# Qlik REST connector for ArangoDB
 
-This is a simple qlik-connector allowing pagination of documents. Of course it is also able to
-deliver the data to any other application. 
+This is an example Qlik connector for ArangoDB.
 
-**IMPORTANT**
+## Installation
 
-This is a demo application and will only work with enabled authentication (Basic Authentication).
+The Qlik connector can be installed as a Foxx service using the
+[ArangoDB web interface](https://docs.arangodb.com/latest/Manual/Programs/WebInterface/Services.html)
+or the [Foxx CLI](https://github.com/arangodb/foxx-cli):
 
-**IMPORTANT**
+```sh
+$ npm install --global foxx-cli
+$ foxx install -u root -P -H http://localhost:8529 -D _system /qlik \
+https://github.com/arangodb-foxx/qlik-connector/archive/master.zip
 
-## Routes
+# or without installing foxx-cli:
 
-### /documents - Paginate documents inside a given collection (GET)
-
-This route allows to get documents of a collection in a paginated way using url query
-parameters.
-
-Required query url parameter:
-- `collection` (Collection to be used)
-
-Optional query url parameters:
-- `start` (Starting point of data to fetch)
-- `count` (Amount of documents we want to fetch)
-
-URL query parameter example:
-```
-  http://<address>:<port>/_db/<database>/<foxx-mount-path>/documents?collection=<your-collection>&start=0&count=5
+$ npx foxx-cli install -u root -P -H http://localhost:8529 -D _system /qlik \
+https://github.com/arangodb-foxx/qlik-connector/archive/master.zip
 ```
 
-### /executeQuery - Passthrough pagination parameters to a query (POST)
+## Configuration
 
-This route passes the `start` and `count` parameters defined via the url query parameters
-into the bindParameter of a query using `@start` and `@count` as variables using e.g. the
-AQL LIMIT function:  `... LIMIT @start, @count ... `.
+Before you can use the ArangoDB connector in Qlik you need to configure the
+service using the web interface or the Foxx CLI.
 
-Required json body attribute:
-- `queryString` (Query to be executed)
+To configure the service in the ArangoDB web interface, open the service details
+and then navigate to the _Settings_ tab in the top bar.
 
-Optional json body attribute:
-- `queryBindVars` (Additional bind parameters to be used)
+- **collections**: list of names of collections that will be exposed to Qlik,
+  as a comma-separated list, e.g. `payments,timeouts` will expose the collections
+  `payments` and `timeouts` in the database the service was installed.
 
-Optional query url parameters:
-- `start` (Starting point of data to fetch)
-- `count` (Amount of documents we want to fetch)
+- **username** and **password**: credentials that will be used by Qlik to
+  authenticate against this service.
 
-URL query parameter example:
-```
-  http://<address>:<port>/_db/<database>/<foxx-mount-path>/executeQuery?start=0&count=5
-```
+  **Note**: These credentials will only be used by Qlik and should **not**
+  match the ArangoDB user credentials used to access ArangoDB itself.
 
-Raw JSON body example:
+## Adding the data source
 
-```
-  {
-    "queryString": "FOR u IN @@collection LIMIT @start, @count RETURN u",
-    "queryBindVars": {
-      "@collection": "users"
-    }
-  }
-```
+To add the connector as a data source in Qlik, open the _Add Data_ dialog and
+select the _REST_ connector.
 
-# Limitations
+Set **URL** to the URL of the service followed by the name of the collection
+you wish to import, e.g. `http://localhost:8529/_db/_system/qlik/timeouts`.
 
-This application is an ArangoDB Foxx service. Foxx is based on Googles V8 JavaScript engine.
-Due to that fact, it is also bound to Googles V8 Limitations. Keep in mind that all generated
-data, needs to fit into your memory. To tweak some of the V8's parameters, ArangoDB offers a few
-startup parameters to tweak V8 for your personal needs.
+Set **Authentication Schema** to `Basic` and use the credentials from the
+service configuration.
 
-```
-  --javascript.v8-contexts <uint64>           maximum number of V8 contexts that are created for executing JavaScript actions (default: 0)
-  --javascript.v8-contexts-minimum <uint64>   minimum number of V8 contexts that keep available for executing JavaScript actions (default: 0)
-  --javascript.v8-max-heap <uint64>           maximal heap size (in MB) (default: 3072)
-```
+Set **Pagination** to `Offset` with the following options:
 
-# License
+- **'Start' parameter name**: `start`
+- **'Start' initial value**: `0`
+- **'Count' parameter name**: `count`
+- **'Count' initial value**: `200`
+- **'Total records' path**: `meta/totalCount`
+- **Data indicator path**: `data`
 
-Copyright (c) 2019 ArangoDB GmbH, Cologne, Germany
+## License
 
-License: Apache 2
+This code is licensed under the
+[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).

@@ -1,16 +1,32 @@
 {
-    "name": "qlik-connector",
-    "version": "1.0.1",
-    "description": "This is a simple qlik-connector allowing pagination of documents",
-    "engines": {
-        "arangodb": "^3.0.0"
+  "$schema": "http://json.schemastore.org/foxx-manifest",
+  "name": "qlik",
+  "description": "Example Qlik REST connector for ArangoDB.",
+  "version": "1.0.0",
+  "thumbnail": "qlik.png",
+  "engines": {
+    "arangodb": "^3.0.0"
+  },
+  "author": "ArangoDB GmbH",
+  "contributors": [
+    "Heiko Kernbach <heiko@arangodb.com>",
+    "Alan Plum <me@pluma.io>"
+  ],
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "configuration": {
+    "collections": {
+      "type": "string",
+      "description": "Names of collections that will be exposed, comma-separated."
     },
-    "author": "Heiko Kernbach",
-    "license": "Apache 2",
-    "main": "main.js",
-    "scripts": {
-        "setup": "scripts/setup.js",
-        "teardown": "scripts/teardown.js"
+    "username": {
+      "type": "string",
+      "description": "Username incoming requests should use to authenticate."
     },
-    "tests": "test/**/*.js"
+    "password": {
+      "type": "string",
+      "required": false,
+      "description": "Password incoming requests should use to authenticate."
+    }
+  }
 }
