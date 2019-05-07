@@ -79,7 +79,7 @@ router
     joi
       .number()
       .integer()
-      .default(1)
+      .default(0)
       .optional(),
     "Starting offset of the result set."
   )
