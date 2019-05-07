@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/foxx-manifest",
-  "name": "qlik",
+  "name": "qlik-connector",
   "description": "Example Qlik REST connector for ArangoDB.",
   "version": "1.0.0",
   "thumbnail": "qlik.png",

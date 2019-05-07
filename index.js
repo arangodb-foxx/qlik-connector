@@ -69,7 +69,6 @@ router
       data: result.toArray()
     });
   })
-  .header("authorization", "Basic auth")
   .pathParam(
     "collection",
     joi.only(...COLLECTIONS).required(),
