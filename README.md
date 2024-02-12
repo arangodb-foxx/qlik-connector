@@ -5,7 +5,7 @@ This is an example Qlik connector for ArangoDB.
 ## Installation
 
 The Qlik connector can be installed as a Foxx service using the
-[ArangoDB web interface](https://docs.arangodb.com/latest/Manual/Programs/WebInterface/Services.html)
+[ArangoDB web interface](https://docs.arangodb.com/stable/components/web-interface/services/)
 or the [Foxx CLI](https://github.com/arangodb/foxx-cli):
 
 ```sh
